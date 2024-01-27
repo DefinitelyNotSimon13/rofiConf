@@ -1,0 +1,87 @@
+configuration{
+    modi: "run,drun,combi";
+    combi-modes: "keys,window,ssh,filebrowser";
+    icon-theme: "Papirus";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: false;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-combi: "  Other";
+    display-window: " 󰍹  Window";
+    display-Network: " 󰤨  Network";
+    display-keys: " 󰌌 Keys";
+    display-ssh: " 󰣀 SSH";
+    display-filebrowser: " 󰈔 Files";
+    sidebar-mode: true;
+    click-to-exit: true;
+}
+
+@theme "catppuccin-mocha"
+@import "config/colors.rasi"
+
+window {
+  height: 500px;
+  border: 2px;
+  border-radius: 15px;
+  border-color: @BGA;
+}
+
+inputbar {
+    children: [prompt,entry];
+    border-radius: 6px;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @BGA;
+    padding: 6px;
+    border-radius: 6px;
+    margin: 20px 0px 0px 20px;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+}
+
+listview {
+    border: 0px 0px 0px;
+    padding: 6px 0px 0px;
+    margin: 10px 0px 0px 20px;
+    columns: 2;
+}
+
+entry {
+    padding: 6px;
+    margin: 20px 10px 0px 10px;
+    border: 2px;
+    border-radius: 3px;
+    border-color: @BGA;
+    placeholder:"Search";
+}
+
+element {
+    padding: 5px;
+}
+
+element-text {
+  vertical-align: 0.5;
+}
+
+element-icon {
+  size: 35px;
+}
+button {
+    padding: 10px;
+    text-color: @FG;
+    vertical-align: 0.5; 
+    horizontal-align: 0.5;
+}
+
+button selected {
+  text-color: @BGA;
+}

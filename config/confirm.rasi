@@ -1,0 +1,21 @@
+@import "colors.rasi"
+@import "font.rasi"
+
+* {
+    background-color:       @BG;
+    text-color:             @FG;
+}
+
+window {
+    width:      	        200px;
+    padding:                20px;
+    border:		              2px;
+    border-radius:          8px;
+    border-color:           @WARN;
+}
+
+entry {
+    expand: 		        true;
+    width: 		            150px;
+    text-color:		        @BDR;
+}
