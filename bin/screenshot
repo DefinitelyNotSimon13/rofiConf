@@ -3,12 +3,8 @@ rofi_command="rofi -theme $HOME/.config/rofi/config/screenshot.rasi"
 
 time=`date +%Y-%m-%d-%I-%M-%S`
 geometry=`xrandr | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
-dir="`xdg-user-dir PICTURES`/Screenshots"
-file="Screenshot_${time}_${geometry}.png"
 
-# Icons
-icon1="$HOME/.config/dunst/icons/collections.svg"
-icon2="$HOME/.config/dunst/icons/timer.svg"
+
 
 # Buttons
 layout=`cat $HOME/.config/rofi/config/screenshot.rasi | grep BUTTON | cut -d'=' -f2 | tr -d '[:blank:],*/'`
@@ -21,19 +17,18 @@ if [[ "$layout" == "TRUE" ]]; then
 else
 	screen="󰹑  Capture Desktop"
 	area="󰩭  Capture Area"
-	window="  Capture Window"
+	window="  Capture Monitor 1"
 	infive="󰔝  Take in 3s"
 	inten="󰔜  Take in 10s"
 fi
 
 # Notify and view screenshot
 notify_view () {
-	dunstify -u low --replace=699 -i $icon1 "Copied to clipboard."
-	viewnior ${dir}/"$file"
+	dunstify -u low --replace=699 "Copied to clipboard."
 	if [[ -e "$dir/$file" ]]; then
-		dunstify -u low --replace=699 -i $icon1 "Screenshot Saved."
+		dunstify -u low --replace=699 "Screenshot Saved."
 	else
-		dunstify -u low --replace=699 -i $icon1 "Screenshot Deleted."
+		dunstify -u low --replace=699 "Screenshot Deleted."
 	fi
 }
 
@@ -47,29 +42,29 @@ countdown () {
 
 # take shots
 shotnow () {
-	cd ${dir} && sleep 0.5 && maim -u -f png | tee "$file" | xclip -selection clipboard -t image/png
+	sleep 0.5 && grim ~/Pictures/Screenshots/$(date +'%s_grim.png') | wl-copy
 	notify_view
 }
 
 shot5 () {
 	countdown '3'
-	sleep 1 && cd ${dir} && maim -u -f png | tee "$file" | xclip -selection clipboard -t image/png
+	sleep 1 && grim ~/Pictures/Screenshots/$(date +'%s_grim.png') | wl-copy
 	notify_view
 }
 
 shot10 () {
 	countdown '10'
-	sleep 1 && cd ${dir} && maim -u -f png | tee "$file" | xclip -selection clipboard -t image/png
+	sleep 1 && grim ~/Pictures/Screenshots/$(date +'%s_grim.png') | wl-copy
 	notify_view
 }
 
-shotwin () {
-	cd ${dir} && maim -u -f png -i `xdotool getactivewindow` | tee "$file" | xclip -selection clipboard -t image/png
+shotmon1 () {
+	sleep 1 && grim -o DP-1 ~/Pictures/Screenshots/$(date +'%s_grim.png') | wl-copy
 	notify_view
 }
 
 shotarea () {
-	cd ${dir} && maim -u -f png -s -b 2 -c 0.35,0.55,0.85,0.25 -l | tee "$file" | xclip -selection clipboard -t image/png
+	sleep 1 && grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +'%s_grim.png') | wl-copy
 	notify_view
 }
 
@@ -89,7 +84,7 @@ case $chosen in
 		shotarea
         ;;
     $window)
-		shotwin
+		shotmon1
 		;;
     $infive)
 		shot5
