@@ -1,1 +1,1 @@
-Config files for rofi, heavily based on [ADDMEPLS]
+https://github.com/DefinitelyNotSimon13/Catppuccin-Dotfiles
