@@ -20,7 +20,5 @@ My Rofi config.
 - catppuccin's [rofi config](https://github.com/catppuccin/rofi)
 - deathmonic's [dot files](https://github.com/deathemonic/Cat-Dots/tree/v1.4/config/rofi)
 
-# Anything else
-
 
 <p align="center"><img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true" /></p>
