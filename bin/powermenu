@@ -90,7 +90,7 @@ case $chosen in
         fi
         ;;
     $lock)
-        sh $HOME/.local/bin/lock
+      waylock
         ;;
     $suspend)
 		ans=$(rdialog &)
