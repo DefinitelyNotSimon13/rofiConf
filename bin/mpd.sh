@@ -23,16 +23,16 @@ fi
 list_col='6'
 list_row='1'
 
-if [[ ${status} == *"[playing]"* ]]; then
-    option_1=""
+if [[ ${status} == "Playing" ]]; then
+    option_1=""
 else
-    option_1=""
+    option_1=""
 fi
-option_2=""
-option_3=""
-option_4=""
-option_5=""
-option_6=""
+option_2=""
+option_3=""
+option_4=""
+option_5=""
+option_6=""
 
 # Toggle Actions
 active=''

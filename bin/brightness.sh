@@ -39,9 +39,9 @@ list_row='1'
 win_width='550px'
 
 # Options
-option_1=""
-option_2=""
-option_3=""
+option_1="󰖜"
+option_2=""
+option_3="󰖛"
 
 # Rofi CMD
 rofi_cmd() {

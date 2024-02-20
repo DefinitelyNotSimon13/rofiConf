@@ -21,7 +21,13 @@ fi
 
 # Theme Elements
 prompt="$status"
+if [ -z "$status" ]; then
+  prompt="Error!"
+fi
 mesg="${battery}: ${percentage}%,${time}"
+if [ -z "$battery" ]; then
+  mesg="No Battery Detected!"
+fi
 
 list_col='4'
 list_row='1'
@@ -32,33 +38,36 @@ active=""
 urgent=""
 if [[ $status = *"Charging"* ]]; then
     active="-a 1"
-    ICON_CHRG=""
+    ICON_CHRG="󰢝"
 elif [[ $status = *"Full"* ]]; then
     active="-u 1"
-    ICON_CHRG=""
+    ICON_CHRG="󰂄"
 else
     urgent="-u 1"
-    ICON_CHRG=""
+    ICON_CHRG="󱉝"
 fi
 
 # Discharging
 if [[ $percentage -ge 5 ]] && [[ $percentage -le 19 ]]; then
-    ICON_DISCHRG=""
+    ICON_DISCHRG="󰁺"
 elif [[ $percentage -ge 20 ]] && [[ $percentage -le 39 ]]; then
-    ICON_DISCHRG=""
+    ICON_DISCHRG="󰁼"
 elif [[ $percentage -ge 40 ]] && [[ $percentage -le 59 ]]; then
-    ICON_DISCHRG=""
+    ICON_DISCHRG="󰁾"
 elif [[ $percentage -ge 60 ]] && [[ $percentage -le 79 ]]; then
-    ICON_DISCHRG=""
+    ICON_DISCHRG="󰂀"
 elif [[ $percentage -ge 80 ]] && [[ $percentage -le 100 ]]; then
-    ICON_DISCHRG=""
+    ICON_DISCHRG="󰁹"
+else 
+    ICON_DISCHRG=""
+    urgent="-u 1"
 fi
 
 # Options
 option_1="$ICON_DISCHRG"
 option_2="$ICON_CHRG"
-option_3=""
-option_4=""
+option_3=""
+option_4="󰒙"
 
 # Rofi CMD
 rofi_cmd() {

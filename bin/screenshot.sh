@@ -18,10 +18,10 @@ list_row='1'
 win_width='670px'
 
 # Options
-option_1=""
-option_2=""
-option_3=""
-option_4=""
+option_1="󰍹"
+option_2="󰆞"
+option_3="󰖉"
+option_4=""
 
 # Rofi CMD
 rofi_cmd() {
