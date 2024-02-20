@@ -16,10 +16,10 @@
 configuration {
 	modi:                       "drun,run,filebrowser,window";
     show-icons:                 true;
-    display-drun:               "APPS";
-    display-run:                "RUN";
-    display-filebrowser:        "FILES";
-    display-window:             "WINDOW";
+    display-drun:               "󰣇";
+    display-run:                "";
+    display-filebrowser:        "";
+    display-window:             "󰍹";
 	drun-display-format:        "{name}";
 	window-format:              "{w} · {c} · {t}";
 }
