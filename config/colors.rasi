@@ -1,13 +1,23 @@
-  * {
-    BG:    #1E1D2Fff;
-    BGA:   #cba6f7ff;
-    FG:    #D9E0EEff;
-    FGA:   #F28FADff;
-    BDR:   #cba6f7ff;
-    SEL:   #1E1E2Eff;
-    UGT:   #F28FADff;
-    IMG:   #FAE3B0ff;
-    OFF:   #575268ff;
-    ON:    #ABE9B3ff;
-    WARN:  #f38ba8ff; 
+* {
+    bg-col:  #1e1e2e;
+    bg-col-90: #1e1e2eE5;
+    bg-col-light: #313244;
+    bg-alt: #cba6f7;
+    bg-alt-90: #cba6f7E5; 
+    border-col: #1E1D2F;
+    selected-col: #1E1D2F;
+    peach: #FAB387;
+    mauve: #cba6f7;
+    mauve-90: #cba6f7E5;
+    red: #f38ba8;
+    red-90: #f38ba8E5;
+    sky: #89dceb;
+    sky-90: #89dcebE5;
+    blue: #89b4fa;
+    blue-90: #89b4faE5;
+    fg-col: #cdd6f4;
+    fg-col2: #a6adc8;
+    grey: #D9E0EE;
+    width: 600;
 }
+
