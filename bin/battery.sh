@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-## Author  : Aditya Shakya (adi1090x)
+## Original Author  : Aditya Shakya (adi1090x)
 ## Github  : @adi1090x
-#
+##
+## Modified By: @DefinitelyNotSimon13
 ## Applets : Battery
 
 # Import Current Theme
-source "$HOME"/.config/rofi/config/applets/theme.bash
-theme="$type/$style"
+theme="$HOME/.config/rofi/config/applets.rasi"
 
 # Battery Info
-battery="`acpi -b | cut -d',' -f1 | cut -d':' -f1`"
-status="`acpi -b | cut -d',' -f1 | cut -d':' -f2 | tr -d ' '`"
-percentage="`acpi -b | cut -d',' -f2 | tr -d ' ',\%`"
-time="`acpi -b | cut -d',' -f3`"
+battery="$(acpi -b | cut -d',' -f1 | cut -d':' -f1)"
+status="$(acpi -b | cut -d',' -f1 | cut -d':' -f2 | tr -d ' ')"
+percentage="$(acpi -b | cut -d',' -f2 | tr -d ' ',\%)"
+time="$(acpi -b | cut -d',' -f3)"
 
 if [[ -z "$time" ]]; then
 	time=' Fully Charged'
@@ -55,18 +55,10 @@ elif [[ $percentage -ge 80 ]] && [[ $percentage -le 100 ]]; then
 fi
 
 # Options
-layout=`cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2`
-if [[ "$layout" == 'NO' ]]; then
-	option_1=" Remaining ${percentage}%"
-	option_2=" $status"
-	option_3=" Power Manager"
-	option_4=" Diagnose"
-else
-	option_1="$ICON_DISCHRG"
-	option_2="$ICON_CHRG"
-	option_3=""
-	option_4=""
-fi
+option_1="$ICON_DISCHRG"
+option_2="$ICON_CHRG"
+option_3=""
+option_4=""
 
 # Rofi CMD
 rofi_cmd() {
@@ -76,9 +68,9 @@ rofi_cmd() {
 		-dmenu \
 		-p "$prompt" \
 		-mesg "$mesg" \
-		${active} ${urgent} \
+		"${active}" "${urgent}" \
 		-markup-rows \
-		-theme ${theme}
+		-theme "${theme}"
 }
 
 # Pass variables to rofi dmenu
@@ -96,23 +88,23 @@ run_cmd() {
 	elif [[ "$1" == '--opt3' ]]; then
 		powerkit --config
 	elif [[ "$1" == '--opt4' ]]; then
-		kitty ${polkit_cmd} powertop
+		kitty "${polkit_cmd}" powertop
 	fi
 }
 
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
-    $option_1)
+    "$option_1")
 		run_cmd --opt1
         ;;
-    $option_2)
+    "$option_2")
 		run_cmd --opt2
         ;;
-    $option_3)
+    "$option_3")
 		run_cmd --opt3
         ;;
-    $option_4)
+    "$option_4")
 		run_cmd --opt4
         ;;
 esac

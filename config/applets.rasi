@@ -1,10 +1,11 @@
 /**
  *
- * Author : Aditya Shakya (adi1090x)
+ * Original Author : Aditya Shakya (adi1090x)
  * Github : @adi1090x
  * 
+ * Modified by : @DefinitelyNotSimon13
  * Rofi Theme File
- * Rofi Version: 1.7.3
+ * Rofi Version: 1.7.5
  **/
 
 /*****----- Configuration -----*****/
@@ -13,19 +14,17 @@ configuration {
 }
 
 /*****----- Global Properties -----*****/
-* {
-    font:                        "JetBrains Mono Nerd Font 10";
-    background:                  #131D1F;
-    background-alt:              #183A43;
-    foreground:                  #FFFFFF;
-    selected:                    #649094;
-    active:                      #E9CC9D;
-    urgent:                      #FEA861;
-}
+@import "colors.rasi"
+@import "border.rasi"
 
-/*
-USE_ICON=YES
-*/
+* {
+    font: "JetBrains Mono Nerd Font 10";
+    padding: 0px;
+    margin: 0px;
+    spacing: 0px;
+    border: 0px;
+    border-radius: 0px;
+}
 
 /*****----- Main Window -----*****/
 window {
@@ -38,19 +37,19 @@ window {
     y-offset:                    0px;
     margin:                      0px;
     padding:                     0px;
-    border:                      0px solid;
-    border-radius:               50px;
-    border-color:                @selected;
+    border:                      @border-width;
+    border-radius:               10px;
+    border-color:                @sky;
     cursor:                      "default";
-    background-color:            @background;
+    background-color:            @bg-col-90;
 }
 
 /*****----- Main Box -----*****/
 mainbox {
     enabled:                     true;
-    spacing:                     20px;
+    spacing:                     15px;
     margin:                      0px;
-    padding:                     20px;
+    padding:                     30px;
     background-color:            transparent;
     children:                    [ "inputbar", "message", "listview" ];
 }
@@ -58,35 +57,34 @@ mainbox {
 /*****----- Inputbar -----*****/
 inputbar {
     enabled:                     true;
-    spacing:                     25px;
-    padding:                     100px 50px;
+    spacing:                     10px;
+    padding:                     0px;
     border:                      0px;
-    border-radius:               40px;
-    border-color:                @selected;
+    border-radius:               0px;
+    border-color:                @peach;
     background-color:            transparent;
-    background-image:            url("~/.config/rofi/images/i.jpg", width);
-    text-color:                  @foreground;
-    children:                    [ "textbox-prompt-colon", "dummy", "prompt"];
+    text-color:                  @fg-col;
+    children:                    [ "textbox-prompt-colon", "prompt"];
 }
 
-dummy{
-    background-color:            transparent;
-}
 textbox-prompt-colon {
     enabled:                     true;
     expand:                      false;
+    width:                       0px;
     str:                         "";
-    padding:                     10px 13px;
-    border-radius:               100%;
-    background-color:            @urgent;
-    text-color:                  @background;
+    padding:                     10px 12px 10px 12px;
+    border-radius:               5px;
+    background-color:            @red-90;
+    text-color:                  @bg-col;
 }
+
 prompt {
     enabled:                     true;
-    padding:                     10px;
-    border-radius:               100%;
-    background-color:            @active;
-    text-color:                  @background;
+    padding:                     10px 5px 10px 5px;
+    margin:                      0px;
+    border-radius:               5px;
+    background-color:            @green-90;
+    text-color:                  @bg-col;
 }
 
 /*****----- Message -----*****/
@@ -95,16 +93,15 @@ message {
     margin:                      0px;
     padding:                     10px;
     border:                      0px solid;
-    border-radius:               100%;
-    border-color:                @selected;
-    background-color:            @background-alt;
-    text-color:                  @foreground;
+    border-radius:               8px;
+    background-color:            @bg-col-light;
+    text-color:                  @fg-col;
 }
 textbox {
     background-color:            inherit;
     text-color:                  inherit;
     vertical-align:              0.5;
-    horizontal-align:            0.5;
+    horizontal-align:            0.0;
 }
 
 /*****----- Listview -----*****/
@@ -116,7 +113,7 @@ listview {
     scrollbar:                   false;
     layout:                      vertical;
     
-    spacing:                     20px;
+    spacing:                     15px;
     background-color:            transparent;
     cursor:                      "default";
 }
@@ -126,10 +123,10 @@ element {
     enabled:                     true;
     padding:                     30px 10px;
     border:                      0px solid;
-    border-radius:               100%;
-    border-color:                @selected;
+    border-radius:               8px;
+    border-color:                @bg-col-light;
     background-color:            transparent;
-    text-color:                  @foreground;
+    text-color:                  @fg-col;
     cursor:                      pointer;
 }
 element-text {
@@ -143,22 +140,22 @@ element-text {
 
 element normal.normal,
 element alternate.normal {
-    background-color:            var(background-alt);
-    text-color:                  var(foreground);
+    background-color:            @bg-col-light;
+    text-color:                  @fg-col;
 }
 element normal.urgent,
 element alternate.urgent,
 element selected.active {
-    background-color:            var(urgent);
-    text-color:                  var(background);
+    background-color:            @red-90;
+    text-color:                  @bg-col;
 }
 element normal.active,
 element alternate.active,
 element selected.urgent {
-    background-color:            var(active);
-    text-color:                  var(background);
+    background-color:            @peach-90;
+    text-color:                  @bg-col;
 }
 element selected.normal {
-    background-color:            var(selected);
-    text-color:                  var(background);
+    background-color:            @peach-90;
+    text-color:                  @bg-col;
 }

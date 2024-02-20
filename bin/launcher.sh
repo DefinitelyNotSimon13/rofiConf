@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-## Author : Aditya Shakya (adi1090x)
-## Github : @adi1090x
-#
+## Original Author  : Aditya Shakya (adi1090x)
+## Github  : @adi1090x
+##
+## Modified By: @DefinitelyNotSimon13
 ## Rofi   : Launcher (Modi Drun, Run, File Browser, Window)
 dir="$HOME/.config/rofi/config"
 theme='launcher'

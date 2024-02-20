@@ -1,10 +1,12 @@
 /**
  *
- * Author : Aditya Shakya (adi1090x)
+ * Original Author : Aditya Shakya (adi1090x)
  * Github : @adi1090x
  * 
+ * Modified by : @DefinitelyNotSimon13
+ *
  * Rofi Theme File
- * Rofi Version: 1.7.3
+ * Rofi Version: 1.7.5
  **/
 
 @import "colors.rasi"
@@ -111,7 +113,7 @@ element {
     enabled:                     true;
     padding:                     30px 10px;
     border-radius:               12px;
-    background-color:            @blue-90;
+    background-color:            @bg-col-light;
     text-color:                  @fg-col;
     cursor:                      pointer;
 }

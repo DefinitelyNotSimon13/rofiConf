@@ -1,22 +1,17 @@
 #!/usr/bin/env bash
 
-## Author : Aditya Shakya (adi1090x)
-## Github : @adi1090x
-#
-## Rofi   : Power Menu
-#
-## Available Styles
-#
-## style-1   style-2   style-3   style-4   style-5
+## Original Author  : Aditya Shakya (adi1090x)
+## Github  : @adi1090x
+##
+## Modified By: @DefinitelyNotSimon13
+## Rofi   : Powermenu (Shutdown, Reboot, Lock, Suspend, Logout, Hibernate)
 
-# Current Theme
 dir="$HOME/.config/rofi/config"
 theme='powermenu'
 
 # CMDs
-lastlogin="`last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7`"
-uptime="`uptime -p | sed -e 's/up //g'`"
-host=`hostname`
+lastlogin="$(last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7)"
+uptime="$(uptime -p | sed -e 's/up //g')"
 
 # Options
 hibernate=''
@@ -33,7 +28,7 @@ rofi_cmd() {
 	rofi -dmenu \
 		-p " $USER" \
 		-mesg " Last Login: $lastlogin |  Uptime: $uptime" \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}"/${theme}.rasi
 }
 
 # Confirmation CMD
@@ -46,7 +41,7 @@ confirm_cmd() {
 		-dmenu \
 		-p 'Confirmation' \
 		-mesg 'Are you Sure?' \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}"/"${theme}".rasi
 }
 
 # Ask for confirmation
@@ -74,15 +69,9 @@ run_cmd() {
 			amixer set Master mute
 			systemctl suspend
 		elif [[ $1 == '--logout' ]]; then
-			if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
-				openbox --exit
-			elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-				bspc quit
-			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-				i3-msg exit
-			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
-				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-			fi
+      loginctl terminate-session "$XDG_SESSION_ID"
+    elif [[ $1 == '--lock' ]]; then
+      swaylock
 		fi
 	else
 		exit 0
@@ -102,11 +91,7 @@ case ${chosen} in
 		run_cmd --hibernate
         ;;
     $lock)
-		if [[ -x '/usr/bin/betterlockscreen' ]]; then
-			betterlockscreen -l
-		elif [[ -x '/usr/bin/i3lock' ]]; then
-			i3lock
-		fi
+    run_cmd --lock
         ;;
     $suspend)
 		run_cmd --suspend

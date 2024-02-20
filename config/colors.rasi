@@ -4,9 +4,8 @@
     bg-col-light: #313244;
     bg-alt: #cba6f7;
     bg-alt-90: #cba6f7E5; 
-    border-col: #1E1D2F;
-    selected-col: #1E1D2F;
     peach: #FAB387;
+    peach-90: #FAB387E5;
     mauve: #cba6f7;
     mauve-90: #cba6f7E5;
     red: #f38ba8;
@@ -15,9 +14,10 @@
     sky-90: #89dcebE5;
     blue: #89b4fa;
     blue-90: #89b4faE5;
+    green: #a6e3a1;
+    green-90: #a6e3a1E5;
     fg-col: #cdd6f4;
     fg-col2: #a6adc8;
     grey: #D9E0EE;
-    width: 600;
 }
 

@@ -1,131 +1,139 @@
 #!/usr/bin/env bash
 
-## Author  : Aditya Shakya (adi1090x)
+## Original Author  : Aditya Shakya (adi1090x)
 ## Github  : @adi1090x
-#
+##
+## Modified By: @DefinitelyNotSimon13
 ## Applets : MPD (music)
 
 # Import Current Theme
-source "$HOME"/.config/rofi/applets/shared/theme.bash
-theme="$type/$style"
+theme="$HOME/.config/rofi/config/applets.rasi"
 
 # Theme Elements
-status="`mpc status`"
-if [[ -z "$status" ]]; then
-	prompt='Offline'
-	mesg="MPD is Offline"
+status=$(playerctl status)
+if [[ -z "$status" || "$status" == "No players found" ]]; then
+    prompt='Offline'
+    mesg="MPD is Offline"
 else
-	prompt="`mpc -f "%artist%" current`"
-	mesg="`mpc -f "%title%" current` :: `mpc status | grep "#" | awk '{print $3}'`"
+    prompt=$(playerctl metadata artist)
+    mesg="$(playerctl metadata title) | \
+$(playerctl metadata --format '{{ duration(position )}}/{{ duration(mpris:length) }}')"
 fi
 
-if [[ ( "$theme" == *'type-1'* ) || ( "$theme" == *'type-3'* ) || ( "$theme" == *'type-5'* ) ]]; then
-	list_col='1'
-	list_row='6'
-elif [[ ( "$theme" == *'type-2'* ) || ( "$theme" == *'type-4'* ) ]]; then
-	list_col='6'
-	list_row='1'
-fi
+list_col='6'
+list_row='1'
 
-# Options
-layout=`cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2`
-if [[ "$layout" == 'NO' ]]; then
-	if [[ ${status} == *"[playing]"* ]]; then
-		option_1=" Pause"
-	else
-		option_1=" Play"
-	fi
-	option_2=" Stop"
-	option_3=" Previous"
-	option_4=" Next"
-	option_5=" Repeat"
-	option_6=" Random"
+if [[ ${status} == *"[playing]"* ]]; then
+    option_1=""
 else
-	if [[ ${status} == *"[playing]"* ]]; then
-		option_1=""
-	else
-		option_1=""
-	fi
-	option_2=""
-	option_3=""
-	option_4=""
-	option_5=""
-	option_6=""
+    option_1=""
 fi
+option_2=""
+option_3=""
+option_4=""
+option_5=""
+option_6=""
 
 # Toggle Actions
 active=''
 urgent=''
 # Repeat
-if [[ ${status} == *"repeat: on"* ]]; then
+if [[ $(playerctl shuffle) == "On" ]]; then
     active="-a 4"
-elif [[ ${status} == *"repeat: off"* ]]; then
+elif [[ $(playerctl shuffle) == "Off" ]]; then
     urgent="-u 4"
 else
     option_5=" Parsing Error"
 fi
+
 # Random
-if [[ ${status} == *"random: on"* ]]; then
+if [[ $(playerctl loop) == "Playlist" ]]; then
     [ -n "$active" ] && active+=",5" || active="-a 5"
-elif [[ ${status} == *"random: off"* ]]; then
+elif [[ $(playerctl loop) == "Track" ]]; then
+    [ -n "$active" ] && active+=",5" || active="-a 5"
+elif [[ $(playerctl loop) == "None" ]]; then
     [ -n "$urgent" ] && urgent+=",5" || urgent="-u 5"
 else
     option_6=" Parsing Error"
 fi
 
+# Player
+player=$(playerctl metadata --format '{{playerName}}')
+if [[ ${player} == "spotify" ]]; then
+    playerIcon=""
+else
+    playerIcon=""
+fi
+
+themeString='textbox-prompt-colon {str: "'$playerIcon'";}'
 # Rofi CMD
 rofi_cmd() {
-	rofi -theme-str "listview {columns: $list_col; lines: $list_row;}" \
-		-theme-str 'textbox-prompt-colon {str: "";}' \
-		-dmenu \
-		-p "$prompt" \
-		-mesg "$mesg" \
-		${active} ${urgent} \
-		-markup-rows \
-		-theme ${theme}
+    rofi -theme-str "listview {columns: $list_col; lines: $list_row;}" \
+        -theme-str "$themeString" \
+        -dmenu \
+        -p "$prompt" \
+        -mesg "$mesg" \
+        "${active}" "${urgent}" \
+        -markup-rows \
+        -theme "${theme}"
 }
 
 # Pass variables to rofi dmenu
 run_rofi() {
-	echo -e "$option_1\n$option_2\n$option_3\n$option_4\n$option_5\n$option_6" | rofi_cmd
+    echo -e "$option_1\n$option_2\n$option_3\n$option_4\n$option_5\n$option_6" | rofi_cmd
+}
+
+currentlyPlaying() {
+    echo "$(playerctl metadata title) | \
+$(playerctl metadata --format '{{ duration(position )}}/{{ duration(mpris:length) }}')"
 }
 
 # Execute Command
 run_cmd() {
-	if [[ "$1" == '--opt1' ]]; then
-		mpc -q toggle && notify-send -u low -t 1000 " `mpc current`"
-	elif [[ "$1" == '--opt2' ]]; then
-		mpc -q stop
-	elif [[ "$1" == '--opt3' ]]; then
-		mpc -q prev && notify-send -u low -t 1000 " `mpc current`"
-	elif [[ "$1" == '--opt4' ]]; then
-		mpc -q next && notify-send -u low -t 1000 " `mpc current`"
-	elif [[ "$1" == '--opt5' ]]; then
-		mpc -q repeat
-	elif [[ "$1" == '--opt6' ]]; then
-		mpc -q random
-	fi
+    if [[ "$1" == '--opt1' ]]; then
+        playerctl play-pause && notify-send -u low -t 1000 " $(playerctl metadata artist)" \
+            "$(currentlyPlaying)"
+    elif [[ "$1" == '--opt2' ]]; then
+        playerctl stop
+    elif [[ "$1" == '--opt3' ]]; then
+        playerctl previous && notify-send -u low -t 1000 " $(playerctl metadata artist)" \
+            "$(currentlyPlaying)"
+    elif [[ "$1" == '--opt4' ]]; then
+        playerctl next && notify-send -u low -t 1000 " $(playerctl metadata artist)" \
+            "$(currentlyPlaying)"
+    elif [[ "$1" == '--opt5' ]]; then
+        loopStatus="$(playerctl loop)"
+        if [[ "$loopStatus" == "None" ]]; then
+            playerctl loop playlist
+        elif [[ "$loopStatus" == "Playlist" ]]; then
+            playerctl loop track
+        elif [[ "$loopStatus" == "Track" ]]; then
+            playerctl loop none
+        fi
+    elif [[ "$1" == '--opt6' ]]; then
+        playerctl shuffle toggle
+    fi
 }
 
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
-    $option_1)
-		run_cmd --opt1
-        ;;
-    $option_2)
-		run_cmd --opt2
-        ;;
-    $option_3)
-		run_cmd --opt3
-        ;;
-    $option_4)
-		run_cmd --opt4
-        ;;
-    $option_5)
-		run_cmd --opt5
-        ;;
-    $option_6)
-		run_cmd --opt6
-        ;;
+"$option_1")
+    run_cmd --opt1
+    ;;
+"$option_2")
+    run_cmd --opt2
+    ;;
+"$option_3")
+    run_cmd --opt3
+    ;;
+"$option_4")
+    run_cmd --opt4
+    ;;
+"$option_5")
+    run_cmd --opt5
+    ;;
+"$option_6")
+    run_cmd --opt6
+    ;;
 esac
