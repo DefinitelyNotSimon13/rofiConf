@@ -6,7 +6,7 @@
 ## Applets : Battery
 
 # Import Current Theme
-source "$HOME"/dotfiles/.config/rofi/files/applets/shared/theme.bash
+source "$HOME"/.config/rofi/config/applets/theme.bash
 theme="$type/$style"
 
 # Battery Info
@@ -23,23 +23,9 @@ fi
 prompt="$status"
 mesg="${battery}: ${percentage}%,${time}"
 
-if [[ "$theme" == *'type-1'* ]]; then
-	list_col='1'
-	list_row='4'
-	win_width='400px'
-elif [[ "$theme" == *'type-3'* ]]; then
-	list_col='1'
-	list_row='4'
-	win_width='120px'
-elif [[ "$theme" == *'type-5'* ]]; then
-	list_col='1'
-	list_row='4'
-	win_width='500px'
-elif [[ ( "$theme" == *'type-2'* ) || ( "$theme" == *'type-4'* ) ]]; then
-	list_col='4'
-	list_row='1'
-	win_width='550px'
-fi
+list_col='4'
+list_row='1'
+win_width='550px'
 
 # Charging Status
 active=""
@@ -108,9 +94,9 @@ run_cmd() {
 	elif [[ "$1" == '--opt2' ]]; then
 		notify-send -u low "$ICON_CHRG Status : $status"
 	elif [[ "$1" == '--opt3' ]]; then
-		xfce4-power-manager-settings
+		powerkit --config
 	elif [[ "$1" == '--opt4' ]]; then
-		${polkit_cmd} alacritty -e powertop
+		kitty ${polkit_cmd} powertop
 	fi
 }
 
