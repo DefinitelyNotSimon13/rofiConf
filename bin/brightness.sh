@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+clear
 ## Original Author  : Aditya Shakya (adi1090x)
 ## Github  : @adi1090x
 ##
@@ -14,8 +14,12 @@ backlights=($(brightnessctl -l | grep backlight | cut -d "'" -f 2))
 backlightsStr=""
 backlight=0
 for b in "${backlights[@]}"; do
-  backlight=$((backlight + $(brightnessctl -d "$b" g)))
+  brigthness=$(brightnessctl -d "$b" g)
+  maxBrightness=$(brightnessctl -d "$b" m)
+  brightness=$((brigthness * 100 / maxBrightness))
+  backlight=$((backlight + brightness))
   backlightsStr+="$b, "
+  echo $backlight
 done
 backlightsStr=${backlightsStr::-2}
 backlight=$((backlight / ${#backlights[@]}))
